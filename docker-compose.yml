@@ -16,7 +16,9 @@ services:
           - data:/var/lib/mysql
 
     jenkins:
-        build: ./jenkins
+        build:
+            context: .
+            dockerfile: Dockerfile.jenkins
         privileged: true
         user: root
         ports:
