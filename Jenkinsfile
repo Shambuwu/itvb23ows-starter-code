@@ -12,8 +12,14 @@ pipeline {
         stage('Test Web') {
             steps {
                 echo 'Running tests in the Web container...'
-                // Vervang 'your_test_script.sh' met je daadwerkelijke test commando of script
-                // sh 'docker-compose run web your_test_script.sh'
+            }
+        }
+
+        stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'sonar-scanner'
+                }
             }
         }
     }
