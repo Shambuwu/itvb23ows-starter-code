@@ -1,5 +1,6 @@
 FROM jenkins/jenkins:lts
 USER root
+
 RUN apt-get update && \
     apt-get install -y apt-transport-https \
     ca-certificates \
@@ -12,5 +13,6 @@ RUN apt-get update && \
     $(lsb_release -cs) \
     stable" && \
     apt-get update && \
-    apt-get install -y docker-ce-cli
+    apt-get install -y docker-ce-cli \
+
 USER jenkins
