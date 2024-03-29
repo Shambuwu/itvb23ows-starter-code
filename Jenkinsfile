@@ -2,10 +2,11 @@ pipeline {
     agent any
 
     stages {
+        agent { dockerfile true }
         stage('Build') {
             steps {
                 echo 'Building Docker containers...'
-                sh 'docker-compose build'
+                sh 'php -v'
             }
         }
 
