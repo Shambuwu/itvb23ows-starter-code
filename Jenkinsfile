@@ -15,12 +15,15 @@ pipeline {
             }
         }
 
-        stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('Sonarqube') {
-                    sh 'find / -name sonar-scanner 2>/dev/null'
-                }
-            }
-        }
+        stage('SonarQube Analysis') {
+                    steps {
+                        script {
+                            scannerHome = tool 'SonarQube'
+                        }
+                        withSonarQubeEnv('SonarQube Server Name') {
+                            sh "${scannerHome}/bin/sonar-scanner"
+                        }
+                        echo 'SonarQube analysis completed'
+                    }
     }
 }
