@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+    web:
+        build: .
+        ports:
+          - "8100:80"
+        depends_on:
+          - db
+
+    db:
+        image: mysql:latest
+        environment:
+          - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+        volumes:
+          - ./hive.sql:/docker-entrypoint-initdb.d/hive.sql
+          - data:/var/lib/mysql
+
+    jenkins:
+        image: jenkins/jenkins:lts
+        privileged: true
+        user: root
+        ports:
+          - 8080:8080
+          - 50000:50000
+        container_name: jenkins
+        volumes:
+          - ./jenkins_config:/var/jenkins_home
+          - /var/run/docker.sock:/var/run/docker.sock
+
+
+volumes:
+    data:
