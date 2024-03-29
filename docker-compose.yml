@@ -16,7 +16,7 @@ services:
           - data:/var/lib/mysql
 
     jenkins:
-        image: jenkins/jenkins:lts
+        build: ./jenkins
         privileged: true
         user: root
         ports:
