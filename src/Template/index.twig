@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hive Game</title>
+    <style>
+        div.board {
+            width: 60%;
+            height: 100%;
+            min-height: 500px;
+            float: left;
+            overflow: scroll;
+            position: relative;
+        }
+
+        div.tile {
+            display: inline-block;
+            width: 4em;
+            height: 4em;
+            border: 1px solid black;
+            box-sizing: border-box;
+            font-size: 50%;
+            padding: 2px;
+            position: absolute; /* Assuming tiles are absolutely positioned within the board */
+        }
+
+        div.player0 {
+            color: black;
+            background: white;
+        }
+
+        div.player1 {
+            color: white;
+            background: black;
+        }
+
+        div.stacked {
+            border-width: 3px;
+            border-color: red;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="board">
+    {% set min_p = 1000 %}
+    {% set min_q = 1000 %}
+    {% for pos, tile in gameState.board %}
+        {% if tile is not empty %}
+            {% set pq = pos|split(',') %}
+            {% set h = tile|length %}
+            <div class="tile player{{ tile[h-1][0] }}{% if h > 1 %} stacked{% endif %}"
+                 style="left: {{ (pq[0] - min_p) * 4 + (pq[1] - min_q) * 2 }}em; top: {{ (pq[1] - min_q) * 4 }}em;">
+                ({{ pq[0] }},{{ pq[1] }})<span>{{ tile[h-1][1] }}</span>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="hand">
+    White:
+    {% for tile, ct in hand[0] %}
+        {% for i in 1..ct %}
+            <div class="tile player0"><span>{{ tile }}</span></div>
+        {% endfor %}
+    {% endfor %}
+</div>
+<div class="hand">
+    Black:
+    {% for tile, ct in hand[1] %}
+        {% for i in 1..ct %}
+            <div class="tile player1"><span>{{ tile }}</span></div>
+        {% endfor %}
+    {% endfor %}
+</div>
+<div class="turn">
+    Turn: {{ player == 0 ? 'White' : 'Black' }}
+</div>
+<form method="post" action="/game/playPiece">
+    <select name="piece">
+        {% for tile, ct in hand[player] %}
+            <option value="{{ tile }}">{{ tile }}</option>
+        {% endfor %}
+    </select>
+    <select name="to">
+        {% for pos in to %}
+            <option value="{{ pos }}">{{ pos }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Play">
+</form>
+<form method="post" action="/game/move">
+    <select name="from">
+        {% for pos, tile in gameState.board %}
+            <option value="{{ pos }}">{{ pos }}</option>
+        {% endfor %}
+    </select>
+    <select name="to">
+        {% for pos in to %}
+            <option value="{{ pos }}">{{ pos }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Move">
+</form>
+<form method="post" action="/game/passTurn">
+    <input type="submit" value="Pass">
+</form>
+<form method="post" action="/game/undoMove">
+    <input type="submit" value="Undo">
+</form>
+<form method="post" action="/game/restart">
+    <input type="submit" value="Restart">
+</form>
+</body>
+</html>

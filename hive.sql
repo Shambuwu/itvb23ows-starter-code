@@ -18,13 +18,19 @@
 --
 -- Table structure for table `games`
 --
+CREATE DATABASE IF NOT EXISTS hive;
+USE `hive`;
 
 DROP TABLE IF EXISTS `games`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `games` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+CREATE TABLE `games`
+(
+    `id`     int NOT NULL AUTO_INCREMENT,
+    `player` int NOT NULL,
+    `board`  text,
+    `hand`   text,
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -32,10 +38,12 @@ CREATE TABLE `games` (
 -- Dumping data for table `games`
 --
 
-LOCK TABLES `games` WRITE;
+LOCK
+TABLES `games` WRITE;
 /*!40000 ALTER TABLE `games` DISABLE KEYS */;
 /*!40000 ALTER TABLE `games` ENABLE KEYS */;
-UNLOCK TABLES;
+UNLOCK
+TABLES;
 
 --
 -- Table structure for table `moves`
@@ -44,15 +52,16 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `moves`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `moves` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `game_id` int NOT NULL,
-  `type` char(4) NOT NULL,
-  `move_from` varchar(11) DEFAULT NULL,
-  `move_to` varchar(11) DEFAULT NULL,
-  `previous_id` int DEFAULT NULL,
-  `state` text,
-  PRIMARY KEY (`id`)
+CREATE TABLE `moves`
+(
+    `id`          int     NOT NULL AUTO_INCREMENT,
+    `game_id`     int     NOT NULL,
+    `type`        char(4) NOT NULL,
+    `move_from`   varchar(11) DEFAULT NULL,
+    `move_to`     varchar(11) DEFAULT NULL,
+    `previous_id` int         DEFAULT NULL,
+    `state`       text,
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -60,10 +69,12 @@ CREATE TABLE `moves` (
 -- Dumping data for table `moves`
 --
 
-LOCK TABLES `moves` WRITE;
+LOCK
+TABLES `moves` WRITE;
 /*!40000 ALTER TABLE `moves` DISABLE KEYS */;
 /*!40000 ALTER TABLE `moves` ENABLE KEYS */;
-UNLOCK TABLES;
+UNLOCK
+TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
