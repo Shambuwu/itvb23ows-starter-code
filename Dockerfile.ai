@@ -1,0 +1,22 @@
+# Use the official Python image from the Docker Hub
+FROM python:latest
+
+# Expose port 5000 to the outside world
+EXPOSE 5000
+
+# Update the package lists and install git, then clean up to reduce image size
+RUN apt-get update \
+  && apt-get install git -y \
+  && apt-get clean
+
+# Install Flask using pip without caching to reduce image size
+RUN pip install --no-cache-dir flask
+
+# Set the working directory to /usr/src/app
+WORKDIR /app
+
+# Clone the repository containing the project into the working directory
+RUN git clone https://github.com/hanze-hbo-ict/itvb23ows-hive-ai.git .
+
+# Set the command to run the Flask application in debug mode, accessible from any host
+CMD [ "flask", "--app", "app", "run", "--host", "0.0.0.0" ]

@@ -58,7 +58,7 @@ class GameController
         // Construct the game state
         $gameState = [
             'game' => $game,
-            'moves' => $moves
+            'moves' => $moves,
         ];
 
         // Load the view with game state
@@ -278,10 +278,6 @@ class GameController
     private function loadView($gameState)
     {
         $view = new GameView($this->twig);
-
-        echo '<pre>';
-        print_r($gameState);
-        echo '</pre>';
 
         $view->render($gameState);
     }

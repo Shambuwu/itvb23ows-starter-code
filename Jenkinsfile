@@ -9,11 +9,12 @@ pipeline {
             }
         }
 
-        stage('Test Web') {
-            steps {
-                echo 'Running tests in the Web container...'
-            }
-        }
+        stage('Run Tests') {
+                    steps {
+                        echo 'Running PHPUnit tests...'
+                        sh './vendor/bin/phpunit'
+                    }
+                }
 
         stage('SonarQube Analysis') {
             steps {
