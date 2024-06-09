@@ -76,7 +76,7 @@
 <div class="turn">
     Turn: {{ player == 0 ? 'White' : 'Black' }}
 </div>
-<form method="post" action="/game/playPiece">
+<form method="post" action="play">
     <select name="piece">
         {% for tile, ct in hand[player] %}
             <option value="{{ tile }}">{{ tile }}</option>
@@ -89,7 +89,7 @@
     </select>
     <input type="submit" value="Play">
 </form>
-<form method="post" action="/game/move">
+<form method="post" action="move">
     <select name="from">
         {% for pos, tile in gameState.board %}
             <option value="{{ pos }}">{{ pos }}</option>
@@ -105,7 +105,7 @@
 <form method="post" action="/game/passTurn">
     <input type="submit" value="Pass">
 </form>
-<form method="post" action="/game/undoMove">
+<form method="post" action="/game/undo">
     <input type="submit" value="Undo">
 </form>
 <form method="post" action="/game/restart">

@@ -13,13 +13,14 @@ class GameRepository
         $this->dbConnection = $dbConnection;
     }
 
-    public function getGameById($gameId)
+    public function getGameById($id)
     {
         $stmt = $this->dbConnection->prepare("SELECT * FROM games WHERE id = ?");
-        $stmt->bind_param("i", $gameId);
+        $stmt->bind_param("i", $id);
         $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $result = $stmt->get_result()->fetch_assoc();
+
+        return new Game($result['id'], $result['player'], json_decode($result['board'], true), json_decode($result['hand'], true));
     }
 
     public function saveGame(Game $game)
