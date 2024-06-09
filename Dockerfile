@@ -34,3 +34,5 @@ COPY src/ ./
 
 # Start the PHP built-in server
 CMD ["php", "-S", "0.0.0.0:80"]
+
+
